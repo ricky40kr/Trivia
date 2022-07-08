@@ -3,6 +3,7 @@ package com.example.trivia;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -101,10 +102,6 @@ public class MainActivity extends AppCompatActivity {
         if (score > highestScore) {
             highestScore = score;
             binding.highScore.setText("Highest Score : " + highestScore);
-            SharedPreferences sPref = getSharedPreferences(MESSAGE_ID, MODE_PRIVATE);
-            SharedPreferences.Editor editor = sPref.edit();
-            editor.putInt("HS", highestScore);  // Key-Value pair
-            editor.apply(); // saving to disk!
         }
 
         if (score == questionList.size() * 2) {
@@ -163,5 +160,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        SharedPreferences sPref = getSharedPreferences(MESSAGE_ID, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sPref.edit();
+        editor.putInt("HS", highestScore);  // Key-Value pair
+        editor.apply(); // saving to disk!
+        Log.d("Saved","Saved the Highest Score as "+highestScore);
     }
 }
