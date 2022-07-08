@@ -9,4 +9,5 @@
     <string name="next">next</string>
     <string name="_false">false</string>
     <string name="question_0">Question : 0/?</string>
+    <string name="scoreDisp">Score : %d/%d</string>
 </resources>
