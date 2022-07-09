@@ -11,7 +11,7 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/dark_blue"
+        android:background="@color/l_blue"
         tools:context=".MainActivity">
 
         <TextView
@@ -37,7 +37,7 @@
             android:fontFamily="@font/roboto_medium"
             android:gravity="center"
             android:text="@string/question_0"
-            android:textColor="@color/white"
+            android:textColor="@color/grey_white"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.057"
@@ -51,7 +51,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="40dp"
             android:layout_marginEnd="16dp"
-            android:backgroundTint="@color/purple_700"
+            android:backgroundTint="@color/m_blue"
             android:elevation="12dp"
             app:cardCornerRadius="4dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -65,7 +65,6 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text="@string/check_your_internet_connection"
-                android:textColor="#FFFFFF"
                 android:textSize="16sp" />
         </androidx.cardview.widget.CardView>
 
@@ -73,8 +72,8 @@
             android:id="@+id/button_true"
             style="@style/ButtonStyle"
             android:layout_width="0dp"
-            android:text="@string/_true"
             android:backgroundTint="@color/grey_white"
+            android:text="@string/_true"
             app:cornerRadius="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -99,7 +98,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-
             android:backgroundTint="@color/grey_white"
             android:text="@string/next"
             android:textColor="#01B8A6"
@@ -131,13 +129,29 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="12dp"
-            android:text="Heighest Score : ?"
+            android:text="Highest Score : ?"
             android:textColor="@color/light_grey"
             app:layout_constraintBottom_toTopOf="@+id/scoreView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/textView"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/buttonReset"
+            style="@style/ButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Reset"
+            android:backgroundTint="@color/grey_white"
+            android:textColor="#000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button_next"
+            app:layout_constraintHorizontal_bias="0.254"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_false"
             app:layout_constraintVertical_bias="0.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

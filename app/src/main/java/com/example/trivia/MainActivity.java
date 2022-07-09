@@ -36,30 +36,43 @@ public class MainActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         questionList = new Repository().getQuestion(questionArrayList -> {
+            // Retrieving the previous sate
+            SharedPreferences getSharedData = getSharedPreferences(MESSAGE_ID, MODE_PRIVATE);
+            highestScore = getSharedData.getInt("HS", highestScore);
+            currentQuestionIndex=getSharedData.getInt("index", currentQuestionIndex);
+            score=getSharedData.getInt("score",score);
+            binding.highScore.setText("Highest Score : " + highestScore);
+
             binding.questionTextview.setText(questionArrayList.get(currentQuestionIndex).getAnswer());
             updateCounter(questionArrayList);
             binding.scoreView.setText(String.format(getString(R.string.scoreDisp), score, questionList.size() * 2));
         });
 
-
         binding.buttonTrue.setOnClickListener(view -> {
                     checkAnswer(true);
-                    updateQuestion();
                 }
         );
         binding.buttonFalse.setOnClickListener(view -> {
                     checkAnswer(false);
-                    updateQuestion();
                 }
         );
         binding.buttonNext.setOnClickListener(view -> {
             currentQuestionIndex += 1 % questionList.size();
             updateQuestion();
         });
+        binding.buttonReset.setOnClickListener(view->{
+            currentQuestionIndex=0;
+            score=0;
+            updateQuestion();
+            binding.scoreView.setText(String.format(getString(R.string.scoreDisp), score, questionList.size() * 2));
+        });
 
-        SharedPreferences getSharedData = getSharedPreferences(MESSAGE_ID, MODE_PRIVATE);
-        int value = getSharedData.getInt("HS", 0);
-        binding.highScore.setText("Highest Score : "+value);
+
+    }
+
+    private void getNextQuestion() {
+        currentQuestionIndex += 1 % questionList.size();
+        updateQuestion();
     }
 
     private void checkAnswer(boolean userAnswer) {
@@ -97,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void incScore() {
-        score = (score+2)%questionList.size()+2;
+        score = (score + 2) % questionList.size() + 2;
         binding.scoreView.setText(String.format(getString(R.string.scoreDisp), score, questionList.size() * 2));
         if (score > highestScore) {
             highestScore = score;
@@ -126,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 binding.questionTextview.setTextColor(Color.WHITE);
+                getNextQuestion();
             }
 
             @Override
@@ -148,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 binding.questionTextview.setTextColor(Color.WHITE);
+                getNextQuestion();
             }
 
             @Override
@@ -163,7 +178,11 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sPref = getSharedPreferences(MESSAGE_ID, MODE_PRIVATE);
         SharedPreferences.Editor editor = sPref.edit();
         editor.putInt("HS", highestScore);  // Key-Value pair
+        editor.putInt("index",currentQuestionIndex);
+        editor.putInt("score",score);
         editor.apply(); // saving to disk!
-        Log.d("Saved","Saved the Highest Score as "+highestScore);
+        Log.d("Saved", "Saved the Highest Score as " + highestScore);
+        Log.d("Saved", "Saved the Current Index as " + currentQuestionIndex);
+        Log.d("Saved", "Saved the Score as " + score);
     }
 }
