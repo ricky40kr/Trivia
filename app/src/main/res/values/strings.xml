@@ -10,4 +10,7 @@
     <string name="_false">false</string>
     <string name="question_0">Question : 0/?</string>
     <string name="scoreDisp">Score : %d/%d</string>
+    <string name="score_0">Score : 0/?</string>
+    <string name="reset">Reset</string>
+    <string name="highest_score">Highest Score : ?</string>
 </resources>

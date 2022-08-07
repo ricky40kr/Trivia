@@ -2,7 +2,7 @@ package com.example.trivia.model;
 
 import androidx.annotation.NonNull;
 
-public class Question {
+public class Question{
     private String statement;
     private boolean answerTrue;
 
