@@ -1,7 +1,10 @@
 package com.example.trivia;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.animation.AlphaAnimation;
@@ -26,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private int currentQuestionIndex = 0;
     private int score = 0;
     private int highestScore = 0;
+    private SoundPool soundPool;
+    private int warnSound;
 
     List<Question> questionList;
 
@@ -46,15 +51,28 @@ public class MainActivity extends AppCompatActivity {
             binding.questionTextview.setText(questionArrayList.get(currentQuestionIndex).getAnswer());
             updateCounter(questionArrayList);
             binding.scoreView.setText(String.format(getString(R.string.scoreDisp), score, questionList.size() * 2));
+
+            //audioAttribute
+            AudioAttributes audioAttributes=new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION).build();
+
+            soundPool=new SoundPool.Builder().setMaxStreams(1).setAudioAttributes(audioAttributes).build();
+
+            warnSound=soundPool.load(this,R.raw.wrong_answer,1);
         });
 
-        binding.buttonTrue.setOnClickListener(view -> {
-                    checkAnswer(true);
-                }
+        binding.floatingActionButton.setOnClickListener(view->{
+            Intent intent=new Intent(Intent.ACTION_SEND);
+            intent.setType("message/rfc822");
+            intent.putExtra(Intent.EXTRA_EMAIL,new String[]{"rhitik48.edu@gmail.com"});
+            intent.putExtra(Intent.EXTRA_SUBJECT,"I'm Playing Trivia!");
+            intent.putExtra(Intent.EXTRA_TEXT,"My highest Score : "+highestScore+"\n My current score : "+score);
+
+            startActivity(intent);
+        });
+
+        binding.buttonTrue.setOnClickListener(view -> checkAnswer(true)
         );
-        binding.buttonFalse.setOnClickListener(view -> {
-                    checkAnswer(false);
-                }
+        binding.buttonFalse.setOnClickListener(view -> checkAnswer(false)
         );
         binding.buttonNext.setOnClickListener(view -> {
             currentQuestionIndex += 1 % questionList.size();
@@ -85,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             snackMessageId = R.string.incorrect_answer;
             shakeAnimation();
+            soundPool.play(warnSound,1,1,0,0,1);
             decScore();
         }
         Snackbar.make(binding.cardView, snackMessageId, Snackbar.LENGTH_SHORT).show();

@@ -6,8 +6,6 @@ public class Question{
     private String statement;
     private boolean answerTrue;
 
-    public Question() {
-    }
 
     public Question(String statement, boolean answerTrue) {
         this.statement = statement;
